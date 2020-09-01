@@ -1,11 +1,10 @@
 class TasksController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :new, :edit, :destroy]
+  before_action :require_user_logged_in, only: [:index, :show, :new, :edit, :destroy]
   before_action :set_tasks, only: [:show, :edit, :update, :destroy]
+  before_action :include_task, only: [:show, :edit]
   
   def index
-    if logged_in?
-      @tasks = current_user.tasks.order(id: :desc).page(params[:page])
-    end
+    @tasks = current_user.tasks.order(id: :desc).page(params[:page])
   end
   
   def show
@@ -17,6 +16,7 @@ class TasksController < ApplicationController
   
   def create
     @task = current_user.tasks.build(task_params)
+    
     if @task.save
       flash[:success] = "タスクが正常に登録されました"
       redirect_to root_url
@@ -49,7 +49,14 @@ class TasksController < ApplicationController
   private
   
   def set_tasks
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
+  end
+  
+  def include_task
+    if current_user.tasks.include?(@task)
+    else
+      redirect_to root_url
+    end
   end
   
   #Strong Parameter

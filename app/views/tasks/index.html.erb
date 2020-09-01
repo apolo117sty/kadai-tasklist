@@ -1,25 +1,16 @@
-<% if logged_in? %>
-  <p>
-    ログイン完了ユーザ: <%= current_user.name %>
-  </p>
-    
-  <ul>
-    <% @tasks.each do |task| %>
-      <li>
-        <%= link_to task.id, task %> : <%= task.status %> &gt; <%= task.content %>
-      </li>
-    <% end %>
-    </ul>
-  <%= link_to "新しいタスクを登録", new_task_path %>
-  <br>
-  <%= link_to 'ログアウトする', logout_path, method: :delete %></li>
-<% else %>
-  <h1>
-      タスクリスト
-    </h1>
-    
-    <%= link_to "新規ユーザー登録", signup_path %>
-    <br>
-    <%= link_to "ログインする", login_path %>
-  <br>
-<% end %>
+<p>
+  ログイン完了ユーザ: <%= current_user.name %>
+</p>
+
+<ul>
+  <% @tasks.each do |task| %>
+    <li>
+      <%= link_to task.id, task %> : <%= task.status %> &gt; <%= task.content %>
+    </li>
+  <% end %>
+</ul>
+<%= paginate @tasks %>
+<%= link_to "新しいタスクを登録", new_task_path %>
+<br>
+<%= link_to 'ログアウトする', logout_path, method: :delete %></li>
+

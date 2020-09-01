@@ -1,14 +1,20 @@
-<h1>
-  id: <%= @task.id %> のタスクの内容
-</h1>
+<% if logged_in? %>
 
-<p>
-  <%= @task.content %>
-</p>
-<p>
-  <%= @task.status %>
-</p>
-
-<%= link_to "一覧に戻る", tasks_path %>
-<%= link_to "タスクを編集する", edit_task_path %>
-<%= link_to "このタスクを削除する", @task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %>
+  <h1>
+    id: <%= @task.id %> のタスクの内容
+  </h1>
+  
+  <p>
+    <%= @task.content %>
+  </p>
+  <p>
+    <%= @task.status %>
+  </p>
+  
+  <%= link_to "一覧に戻る", tasks_path %>
+  <%= link_to "タスクを編集する", edit_task_path %>
+  <%= link_to "このタスクを削除する", @task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %>
+  
+<% else %>
+  <%= link_to "一覧に戻る", tasks_path %>
+<% end %>
